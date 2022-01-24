@@ -6,7 +6,7 @@ for i in *.fa;
         do name=$(echo ${i} | cut -f1 -d'_')
 		sample=$(echo ${i})
 		if [ ! -d ../refseq/"$name" ]; then
-			mkdir ../refseq/"$name"
+			 mkdir -p ../refseq/"$name"/Mitogenome
 		fi
-		cp -i "$sample" ../refseq/"$name"
+		cp -i "$sample" ../refseq/"$name"/Mitogenome
 		done
