@@ -1,3 +1,4 @@
+#!/bin/bash
 #convert list of accession numbers to Taxonomy
 
 cat Acc.list | while IFS= read -r line || [[ -n $line ]]; do echo $line > acc/$line; done
