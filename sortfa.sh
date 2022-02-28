@@ -10,3 +10,6 @@ for i in *.fa;
 		fi
 		cp -i "$sample" ../refseq/"$name"/Mitogenome
 		done
+
+#oneline
+ for i in *.fa; do name=$(echo ${i} | cut -f1 -d'.'); mkdir ../"$name"/18s/ -p; cp ${i} ../"$name"/18s; done
