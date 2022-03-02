@@ -1,3 +1,4 @@
 #extract gene regions using cutadapt 
 #use reverse compliment of the reverse primer. -O is the min number of basepairs the sequence must overlap with the primer 
+
 cutadapt -g FWDPRIMER...RCREVERSEPRIMER -O 10 --trimmed-only -o output.fasta input.fasta
