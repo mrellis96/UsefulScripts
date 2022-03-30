@@ -1,2 +1,2 @@
 # UsefulScripts
-Useful scripts i've made through the course of my PhD
+Useful scripts I've made over the course of my PhD
