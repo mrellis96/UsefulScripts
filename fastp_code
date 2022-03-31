@@ -1,0 +1,3 @@
+removes adapter reads and poyl g tails
+
+for i in DEA555/*.fastq.gz; do SAMPLE=$(echo ${i} | sed "s/DEA555//"); fastp --adapter_sequence=CTGTCTCTTATA -i ${i} -o fastp${SAMPLE} -h fastp${SAMPLE}.html -g; done
