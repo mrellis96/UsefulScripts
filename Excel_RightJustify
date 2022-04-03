@@ -1,0 +1,18 @@
+The following formulas will allow quick conversion of your data to a form that Text-to-Columns will readily parse right-justified as you describe:
+
+Excel snip
+
+D5 formula (appends a semicolon if absent):
+
+=IF(RIGHT(B5,1)<>";",B5&";",B5)
+G5 formula (prepends necessary number of semicolons):
+
+=REPT(";",5-(LEN(D5)-LEN(SUBSTITUTE(D5,";",""))))&D5
+Copying the results followed by a Paste-Special-as-Values should afford raw material suitable for a Text-to-Columns conversion.
+
+The solution depends on there being a fixed maximum number of columns; here, five. The formula of G5 could be generalized by adding a 'number of columns to generate' cell elsewhere on the sheet and referencing this new cell instead of the hard-coded 5 value.
+
+Additionally, if you are guaranteed that the data will always have the trailing semicolon, the intermediate step of D5:D7 is superfluous.
+
+
+https://superuser.com/questions/926084/how-can-i-align-right-the-results-of-excels-text-to-columns-feature
