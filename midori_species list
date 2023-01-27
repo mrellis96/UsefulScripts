@@ -1,0 +1,8 @@
+#creats a list of from midori database taxon file as accesion and species names
+#eg
+#KY472786.1.<1.>570      Sabella_spallanzanii_85702
+#LT717708.1.<1.>612      Sabella_spallanzanii_85702
+#MW277682.1.<1.>658      Sabellastarte_spectabilis_880618
+#MW278758.1.<1.>658      Sabellastarte_spectabilis_880618
+
+awk -F " |__|\t" '{print $1"\t" $(NF-1)"_"$NF}' input.file
