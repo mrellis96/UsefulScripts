@@ -1,0 +1,25 @@
+#Uses sed to text from one column with another in a seperate document
+
+sed `cat replacment.list | awk '{print "-e s/"$1"/"$2"/"}'`<<<"`cat input.file`" > output.file
+
+
+
+#eg
+#$ cat file.map
+#abc => 123
+#def => 456
+#ghi => 789
+
+#$ cat stuff.txt
+#abc jdy kdt
+#kdb def gbk
+#qng pbf ghi
+#non non non
+#try one abc
+
+#$ sed `cat file.map | awk '{print "-e s/"$1"/"$3"/"}'`<<<"`cat stuff.txt`"
+#123 jdy kdt
+#kdb 456 gbk
+#qng pbf 789
+#non non non
+#try one 123
