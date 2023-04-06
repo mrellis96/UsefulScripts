@@ -8,7 +8,7 @@ my $b=(split /\//, $a[0])[-1];
 my $sample=(split /\./, $b)[0];
 mkdir $sample; 
 `cp $sample*.gz $sample`;
-`echo  mitoz all --workdir $sample --genetic_code 5 --clade Arthropoda --insert_size 250 --thread_number 24 --fq1 $a[0] --fq2 $a[1] --outprefix $sample --fastq_read_length 100 --requiring_taxa Metazoa --tmp_dir $sample/tmp >> mitoz.sh`; '
+`echo  mitoz all --workdir $sample --genetic_code 5 --clade Arthropoda --insert_size 250 --thread_number 24 --fq1 $a[0] --fq2 $a[1] --outprefix $sample --fastq_read_length 100 --requiring_taxa Metazoa --skip_filter --tmp_dir tmp >> mitoz.sh`; '
 
 
 $nohup cat mitoz.sh | while read line; do docker run -v $PWD:$PWD -w $PWD --rm guanliangmeng/mitoz:3.5 $line 1>>m.log 2>>m.err; done &
