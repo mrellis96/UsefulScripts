@@ -1,0 +1,1 @@
+cat complete.list | while read line; do grep -A1 COX1 $line/$line.result/$line.$line.megahit.mitogenome.fa.result/$line"_"$line.megahit.mitogenome.fa_mitoscaf.fa.gbf.gene.fasta | sed 's/>/>'$line'/' >> COX1.fasta; done
