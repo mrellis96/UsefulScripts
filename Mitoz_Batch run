@@ -1,14 +1,23 @@
-$ ls /abspath/to/fastq/sampleID*.fq.gz | awk 'NR%2{printf "%s ",$0;next;}1' > sample_fq.list
+ls /abspath/to/fastq/sampleID*.fq.gz | awk 'NR%2{printf "%s ",$0;next;}1' > sample_fq.list
 
-# Change _ in line 8 to seperate after sampleID
-$ cat sample_fq.list | perl -ne '
-chomp; 
-my @a=split /\s+/;
-my $b=(split /\//, $a[0])[-1];
-my $sample=(split /\_/, $b)[0];
-mkdir $sample; 
-`cp $sample*.gz $sample`;
-`echo  mitoz all --workdir $sample --genetic_code 5 --clade Arthropoda --insert_size 250 --thread_number 24 --fq1 $a[0] --fq2 $a[1] --outprefix $sample --fastq_read_length 100 --requiring_taxa Metazoa --tmp_dir /tmp >> mitoz.sh`; '
+# Change "_" in line 8 to seperate after sampleID
+cat sample_fq.list | perl -ne '
+  chomp; 
+  my @a=split /\s+/;
+  my $b=(split /\//, $a[0])[-1];
+  my $sample=(split /\_/, $b)[0];
+  mkdir $sample; 
+  `cp $sample*.gz $sample`;
+  `echo  mitoz all --workdir $sample --genetic_code 5 --clade Arthropoda --insert_size 250 --thread_number 24 --fq1 $a[0] --fq2 $a[1] --outprefix $sample --fastq_read_length 100 --requiring_taxa Metazoa --tmp_dir /tmp >> mitoz.sh`; '
+nohup sh -c 'cat mitoz.sh | while read line; do docker run -v $PWD:$PWD -w $PWD --rm guanliangmeng/mitoz:3.5 $line; done' 1>m.log 2>m.err &
 
-
-$nohup sh -c 'cat mitoz.sh | while read line; do docker run -v $PWD:$PWD -w $PWD --rm guanliangmeng/mitoz:3.5 $line; done' 1>m.log 2>m.err &
+#for MEANGS
+# Change "_" in line 20 to seperate after sampleID
+cat sample_fq.list | perl -ne '
+  chomp; 
+  my @a=split /\s+/;
+  my $b=(split /\//, $a[0])[-1];
+  my $sample=(split /\_/, $b)[0];
+  mkdir $sample; 
+  `echo  meangs.py  -1 $a[0] -2 $a[1] -o $sample -t 24 -i 250 --deepin`; '
+nohup sh -c 'cat mitoz.sh | while read line; do docker run --rm -w /home/meangs -v $PWD:/home/meangs bioinfodocker/meangs:latest $line; done' 1>m.log 2>m.err &
