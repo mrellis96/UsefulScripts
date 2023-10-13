@@ -8,5 +8,8 @@ for i in *; do esearch -db nuccore -query "$i" | elink -target taxonomy | efetch
 #for taxanomic node
 for i in *; do esearch -db nuccore -query "$i" | elink -target taxonomy | efetch -format docsum |xtract -pattern DocumentSummary -element Caption,TaxId| awk -v a=">""$i" -F "\t" '{print a "\t" $1}' ; done
 
+#same as above but might be faster - need to past accesiobn numbers afterwards, possilby could pipe it.
+cat acc.list | epost -db nuccore | elink -target taxonomy | efetch -format docsum |xtract -pattern DocumentSummary -element Caption,TaxId >> tax.out
+
 #try |grep Lineage| instead
 
