@@ -6,7 +6,7 @@ cat Acc.list | while IFS= read -r line || [[ -n $line ]]; do echo $line > acc/$l
 for i in *; do esearch -db nuccore -query "$i" | elink -target taxonomy | efetch -format native -mode xml | grep ScientificName | awk -F ">|<" 'BEGIN{ORS=", ";}{print $3;}' | awk -v a="$i" -F "\t" '{print a "\t" $1}' >> out.txt; done
 
 #for taxanomic node
-cat test.list|while read line; do esearch -db nuccore -query "$i" | elink -target taxonomy | efetch -format docsum |xtract -pattern DocumentSummary -element Caption,TaxId| awk -v a=">""$i" -F "\t" '{print a "\t" $1}' ; done
+for i in *; do esearch -db nuccore -query "$i" | elink -target taxonomy | efetch -format docsum |xtract -pattern DocumentSummary -element Caption,TaxId| awk -v a=">""$i" -F "\t" '{print a "\t" $1}' ; done
 
 #try |grep Lineage| instead
 
