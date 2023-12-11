@@ -14,4 +14,4 @@ cat acc.list | epost -db nuccore | elink -target taxonomy | efetch -format docsu
 #try |grep Lineage| instead
 
 #for lca script in pipeline use:
-cat test.list | epost -db nuccore | esummary -db nuccore | xtract -pattern DocumentSummary -element AccessionVersion,TaxId >> tax.out
+cat acc.list | epost -db nuccore | esummary -db nuccore | xtract -pattern DocumentSummary -element AccessionVersion,TaxId >> tax.out
