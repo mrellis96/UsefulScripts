@@ -1,0 +1,3 @@
+sed 's/\r//g' OTU.ASV.csv > otu.tmp
+rm OTU.ASV.csv
+mv otu.tmp OTU.ASV.csv
