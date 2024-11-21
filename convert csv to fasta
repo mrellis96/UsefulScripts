@@ -1,0 +1,2 @@
+#csv needs asv name in col1 and sequence in col2
+cat asv.csv | tr "," "\n" | sed 's/^ASV/>ASV/' | >asv.fasta
