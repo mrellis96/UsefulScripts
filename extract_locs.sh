@@ -26,3 +26,5 @@ BEGIN {
         print acc, location;  # Print accession and location
     }
 }
+
+#run as awk -f extract_locs.sh sequence.gb >locations.txt
