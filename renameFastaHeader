@@ -1,8 +1,8 @@
 #rename headers in a mulitfasts "sample.fasta" acrodring to rename.list
 
 #head rename.list
-#HEADER1 RENAME1
-#HEADER2 RENAME2
-#HEADER3 RENAME2
+#RENAME1
+#RENAME2
+#RENAME2
 
 awk 'FNR==NR{  a[">"$1]=$2;next}$1 in a{  sub(/>/,">"a[$1]"|",$1)}1' rename.list sample.fasta > output.fasta
