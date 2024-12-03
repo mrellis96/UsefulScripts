@@ -5,4 +5,4 @@
 #HEADER2 RENAME2
 #HEADER3 RENAME2
 
-awk 'FNR==NR{  a[">"$1]=$2;next}$1 in a{  sub(/>/,">"a[$1]"|",$1)}1' rename.list sample.fasta
+awk 'FNR==NR{  a[">"$1]=$2;next}$1 in a{  sub(/>/,">"a[$1]"|",$1)}1' rename.list sample.fasta > output.fasta
