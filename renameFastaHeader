@@ -1,8 +1,16 @@
 #rename headers in a mulitfasts "sample.fasta" acrodring to rename.list
 
 #head rename.list
-#RENAME1|LocationA
-#RENAME2|LocationB
-#RENAME3|LocationC
+#NAME1|LocationA
+#NAME2|LocationB
+#NAME3|LocationC
+
+#head sample.fasta
+>NAME1 additional metadata
+ATTC...
+>NAME2 additional metadata
+GGCT...
+>NAME3 additional metadata
+ATCC...
 
 awk 'NR==FNR {split($0, a, "|"); map[a[1]] = ">"$0; next} /^>/ {id = substr($1, 2); print (id in map ? map[id] : $0)} !/^>/ {print}' rename.list sample.fasta > output.fasta
