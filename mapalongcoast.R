@@ -1,3 +1,5 @@
+#Needs more debugging!! - maight be plotting straight line
+
 dist_along_coast <- function(coast, points){
 # Convert polygon to LINESTRING (coastline extraction)
 coastline <- coast %>% st_geometry() %>% st_cast("MULTILINESTRING") %>% st_cast("LINESTRING")
