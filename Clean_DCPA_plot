@@ -1,0 +1,73 @@
+#Makes DCPA plots neat and tidy with populations. (Thanks Kathy)
+
+mycol <- c("#aadce0", "#abc9c8","#72aeb6", "#4692b0", "#8dc7dc" , "#0cb4bb",
+           "#a82203", "#f1af3a", "#ab84a5", "#df8d71", "#2f70a1", "#134b73",
+           "#0a3351")
+angasidat.grp <- find.clusters(angasidat, max.n.clust=16, n.pca=30, n.clust=13) #30PCs - 13 Clusters
+#table.value(table(pop(angasidat), angasidat.grp$grp), col.lab=paste("inf", 1:4), row.lab=paste("ori", 1:4))
+angasidat.popnames <- unique(angasidat@pop)
+table.value(table(pop(angasidat), angasidat.grp$grp), col.lab=paste("inf", 1:4), row.lab=angasidat.popnames)
+angasidat.dapc1 <- dapc(angasidat, angasidat.grp$grp,n.pca=40, n.da=2) #40 pcc(82.7%) 2 DFs
+angasidat.scatter <- scatter(angasidat.dapc1, cell=0, cstar=1, scree.da=FALSE, clab=0, cex=2, solid=.7, bg="white", leg=TRUE, posi.leg="topleft", col = mycol)
+ 
+ggsave("angasidat_scatter.png",
+       plot = angasidat.scatter,
+       path = NULL,
+       device = "png",
+       scale = 1,
+       width = 200,
+       height = 100,
+       units = ("mm"),
+       dpi = 800)
+ 
+write.table(angasidat.dapc1 $posterior,file='dapc1_angasidat.txt')
+angasi.comp <- compoplot(angasidat.dapc1,show.lab=T, cleg=.6, n.col=3,width=.9,cex.names=.8, axes=T,args.legend = c(bty="n"), col = mycol)
+#ordered by individual populations
+# Order by population
+#angasi.dapc.out <- as.matrix(angasidat.dapc1$posterior)
+# Get the population assignments for each individual
+#pop_order <- order(pop(angasidat))
+#angasi.dapc.out <- as.matrix(angasidat.dapc1$posterior)
+#angasi.dapc.out <- angasi.dapc.out[pop_order, ]
+#angasi.comp <- compoplot(angasi.dapc.out,show.lab=T, cleg=.6, n.col=3,width=.9,cex.names=.8, axes=T,args.legend = c(bty="n"), col = mycol)
+ 
+# Define custom population order
+custom_order <- c("Wilson Spit", "Nine FT Bank", "Bird Rock", "Altona", 
+                  "Margarets Reef", "Dromana", "Rye Pier", "Blairgowrie Pier", 
+                  "Steeles Rocks", "Western Port", "Gabo Island", 
+                  "Mallacoota Lakes", "Gippsland Lakes")
+ 
+# Order the data
+angasi.dapc.out <- as.matrix(angasidat.dapc1$posterior)
+pops_original <- pop(angasidat)
+pop_order <- order(factor(pops_original, levels = custom_order))
+angasi.dapc.out <- angasi.dapc.out[pop_order, ]
+ordered_pops <- as.character(pops_original[pop_order])
+ 
+# Calculate positions
+pop_counts <- as.numeric(table(factor(ordered_pops, levels = custom_order)))
+cumsum_counts <- cumsum(pop_counts)
+ 
+# Plot and capture bar positions
+par(mar=c(7, 4, 4, 2) + 0.1)
+bar_positions <- compoplot(angasi.dapc.out, show.lab=FALSE, cleg=1, n.col=1,
+                           width=.9, cex.names=1.3, axes=FALSE,
+                           args.legend = list(x="topright", bty="n", cex=0.5),
+                           posi = "right",
+                           col = mycol)
+ 
+# Calculate boundaries BETWEEN bars (midpoint between last bar of pop and first bar of next pop)
+last_bars <- bar_positions[cumsum_counts[-length(cumsum_counts)]]
+first_bars_next <- bar_positions[cumsum_counts[-length(cumsum_counts)] + 1]
+boundaries <- (last_bars + first_bars_next) / 2
+ 
+# Calculate midpoints for labels
+starts <- c(bar_positions[1], first_bars_next)
+ends <- c(last_bars, bar_positions[cumsum_counts[length(cumsum_counts)]])
+midpoints <- (starts + ends) / 2
+ 
+comp_plot <- axis(2) +
+  abline(v=boundaries, col="black", lwd=1.75) +
+  text(x=midpoints, y=par("usr")[3] - 0.01 * diff(par("usr")[3:4]), 
+     labels=custom_order, srt=90, adj=1, xpd=TRUE, cex=1)+
+  axis(1, at=range(bar_positions), labels=FALSE, lwd.ticks=0)
