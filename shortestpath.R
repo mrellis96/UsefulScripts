@@ -33,8 +33,8 @@ plot(test_raster.merc)
 
 
 res.land <- test_raster.merc
+#res.land[res.land==1] <- 50
 #res.land[res.land==0] <- 1
-#res.land[res.land!=1] <- 50
 #res.land[is.nan(res.land)] <- 100
 names(res.land) <- "land50"
 plot(res.land)
