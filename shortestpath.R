@@ -1,3 +1,6 @@
+#Finds the shortest distance between points while accounting for resitance (eg. land).
+
+
 library(gdistance)
 library(sf)
 library(raster)
@@ -14,7 +17,7 @@ library(ggrepel)
 
 
 
-test <- read_sf("Westernport_Merged.shp") #Shapefile containing layers for resistance (ie. water=0, land=1)
+test <- read_sf("Westernport_Merged.shp") #Shapefile containing layers for resistance (eg. water=0, land=1)
 locs <- read.csv("locations.csv") #CSV with cols. Location,Latitude,Longitude
 
 
