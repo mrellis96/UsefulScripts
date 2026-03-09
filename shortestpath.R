@@ -14,8 +14,8 @@ library(ggrepel)
 
 
 
-test <- read_sf("Westernport_Merged.shp")
-locs <- read.csv("locations.csv")
+test <- read_sf("Westernport_Merged.shp") #Shapefile containing layers for resistance (ie. water=0, land=1)
+locs <- read.csv("locations.csv") #CSV with cols. Location,Latitude,Longitude
 
 
 template = rast(vect(test),res=0.001)
