@@ -1,0 +1,8 @@
+# converts the species list to files, then converts files to NCBI tax id
+
+cat species.list | while read species; do touch species/$species; done
+
+for i in *; do
+taxid=$(esearch -db taxonomy -query "${i}[Scientific Name]" 2>/dev/null | efetch -format docsum 2>/dev/null | xtract -pattern DocumentSummary -element Id);
+echo -e "$i\t${taxid:-Not Found}";
+done > taxid.txt
